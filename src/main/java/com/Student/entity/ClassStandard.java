@@ -1,10 +1,12 @@
 package com.Student.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,4 +27,12 @@ public class ClassStandard {
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
     private Set<Subject>subjects=new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "classStandard",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<MarkSheet>markSheets;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "classStandard", cascade = CascadeType.ALL,orphanRemoval = true)
+    private Student student;
 }
