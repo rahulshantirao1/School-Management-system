@@ -19,10 +19,20 @@ public class ClassController {
         this.classStandardService = classStandardService;
     }
 
+    @PostMapping("/addAllClass")
+    public ResponseEntity<ClassStandard>addClassAll(@RequestBody List<ClassDto> classDto)
+    { ClassStandard classStandard=null;
+           for (int i=0;i<classDto.size();i++){
+                classStandard = classStandardService.addClass(classDto.get(i));
+           }
+        return new ResponseEntity<>(classStandard, HttpStatus.CREATED);
+    }
     @PostMapping("/addClass")
     public ResponseEntity<ClassStandard>addClass(@RequestBody ClassDto classDto)
     {
-        ClassStandard classStandard = classStandardService.addClass(classDto);
+
+        ClassStandard    classStandard = classStandardService.addClass(classDto);
+
         return new ResponseEntity<>(classStandard, HttpStatus.CREATED);
     }
     @GetMapping("/getAllClass")

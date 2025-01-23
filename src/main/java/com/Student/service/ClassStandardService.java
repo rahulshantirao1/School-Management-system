@@ -13,39 +13,44 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class ClassStandardService {
 
     private ClassStandardRepository classStandardRepository;
 
-    public ClassStandardService(ClassStandardRepository classStandardRepository, SubjectRepository subjectRepository) {
+    public ClassStandardService(ClassStandardRepository classStandardRepository, SubjectService subjectService, SubjectRepository subjectRepository) {
         this.classStandardRepository = classStandardRepository;
+        this.subjectService = subjectService;
         this.subjectRepository = subjectRepository;
     }
+    private SubjectService subjectService;
 private SubjectRepository subjectRepository;
     public ClassStandard addClass(ClassDto classDto) {
 
         Set<String> subjects = classDto.getSubjects();
         Set<Subject> subjectSet = subjects.stream().map(e -> subjectRepository.findBySubjectName(e).orElseThrow(() -> new ResourceNotFoundException("Please Add Valid Subject: http://localhost:8080/api/v1/subject/addSubject"))).collect(Collectors.toSet());
-        Optional<ClassStandard> class1 = classStandardRepository.findByClassName(classDto.getClassName());
-        if (class1.isPresent()){
-            Set<Subject> subjects1 = class1.get().getSubjects();
-            if (subjects1.containsAll(subjects)){
-                return class1.get();
-            }
+        List<ClassStandard> class1 = classStandardRepository.findByClassName(classDto.getClassName().toUpperCase()+"-"+classDto.getSection());
+        if (class1!=null){
+           for (int i=0;i<class1.size();i++){
+               Set<Subject> subjects1 = class1.get(i).getSubjects();
+               if (subjects1.containsAll(subjectSet)&&subjectSet.containsAll(subjects1)){
+                   return class1.get(i);
+               }
+           }
         }
+
         String string = UUID.randomUUID().toString();
         String substring = string.substring(1, 4);
         String classId = substring + "-" + classDto.getClassName() +"-"+ string.substring(6, 8);
         ClassStandard cla = new ClassStandard();
         cla.setClassId(classId);
         cla.setStream(classDto.getStream());
-         cla.setClassName(classDto.getClassName()+"-"+classDto.getSection());
+         cla.setClassName(classDto.getClassName().toUpperCase()+"-"+classDto.getSection());
          cla.setSubjects(subjectSet);
         ClassStandard save = classStandardRepository.save(cla);
         return save;
-
     }
 
     public List<ClassStandard> getAllClass() {
