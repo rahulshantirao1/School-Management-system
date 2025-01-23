@@ -22,9 +22,10 @@ public class SubjectController {
 
 
     @PostMapping("/addSubject")
-    public ResponseEntity<Subject>addSubject(@RequestParam("subject")String subjectName)
+    public ResponseEntity<Subject>addSubject(@RequestBody SubjectDto subjectName)
     {
-        Subject subject = subjectService.addSubject(subjectName);
+        Subject subject= subjectService.addSubject(subjectName);
+
         return new ResponseEntity<>(subject, HttpStatus.CREATED);
     }
     @GetMapping("/getAllSubject")

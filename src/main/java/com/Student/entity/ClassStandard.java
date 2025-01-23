@@ -17,9 +17,9 @@ public class ClassStandard {
     @Id
     @Column(name = "classId", nullable = false)
     private String classId;
-    @Column(name = "className",length = 200,nullable = false,unique = true)
+    @Column(name = "className",length = 200,nullable = false)
     private String className;
-
+    private String stream;
     @ManyToMany
     @JoinTable(
             name = "classStandard_Subject",

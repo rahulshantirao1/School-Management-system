@@ -8,6 +8,7 @@ import java.util.Set;
 public class ClassDto {
 
     private String className;
-
+    private String stream;
+    private String section;
     private Set<String> subjects;
 }

@@ -1,6 +1,7 @@
 package com.Student.service;
 
 import com.Student.entity.ClassStandard;
+import com.Student.entity.Student;
 import com.Student.entity.Subject;
 import com.Student.exception.ResourceNotFoundException;
 import com.Student.payload.SubjectDto;
@@ -23,13 +24,13 @@ public class SubjectService {
         this.classStandardRepository = classStandardRepository;
     }
 
-    public Subject addSubject(String subjectDto) {
-        Optional<Subject> subjectAva = subjectRepository.findBySubjectName(subjectDto);
+    public Subject addSubject(SubjectDto subjectDto) {
+        Optional<Subject> subjectAva = subjectRepository.findBySubjectName(subjectDto.getSubjectName().toUpperCase());
         if (subjectAva.isEmpty()){
             String s = UUID.randomUUID().toString();
-            String subId = s.substring(0,4) + "-" + subjectDto;
+            String subId = s.substring(0,4) + "-" + subjectDto.getSubjectName().substring(0,3);
             Subject subject = new Subject();
-            subject.setSubjectName(subjectDto.toUpperCase());
+            subject.setSubjectName(subjectDto.getSubjectName().toUpperCase());
             subject.setId(subId.toUpperCase());
             Subject save = subjectRepository.save(subject);
             return save;
