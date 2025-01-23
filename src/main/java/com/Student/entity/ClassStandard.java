@@ -34,5 +34,5 @@ public class ClassStandard {
 
     @JsonIgnore
     @OneToMany(mappedBy = "classStandard", cascade = CascadeType.ALL,orphanRemoval = true)
-    private Student student;
+    private Set<Student> student;
 }

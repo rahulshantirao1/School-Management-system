@@ -32,6 +32,8 @@ public class Subject {
 	@OneToMany(mappedBy = "subject",cascade = CascadeType.ALL,orphanRemoval = true)
 	private Set<MarkSheet>markSheets;
 
+
+
 @Override
 public String toString(){
 	return "Id: "+id+"SubjectName: "+subjectName;

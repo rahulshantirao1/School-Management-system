@@ -1,6 +1,7 @@
 package com.Student.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,16 @@ import java.util.List;
 @Entity
 @Table(name = "Marks")
 public class MarkSheet {
-
-
     @Id
     private String markSheetId;
-
-    @Column(name = "marks",nullable = false)
-    private HashMap<Subject,Integer> marks;
+    @Column(name = "marksObtained",nullable = false)
+   private Double marksObtained;
+    @Column(name = "totalMarks",nullable = false)
+   private Double totalMarks;
+    @Column(name = "grade",nullable = false)
+   private String grade;
+    @Column(name = "remarks",nullable = false)
+   private String remarks;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "classStandard_id")
