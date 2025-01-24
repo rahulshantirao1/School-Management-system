@@ -27,6 +27,8 @@ public class Student {
     @Column(name = "studentAddress",nullable = false,length = 1000)
     private String studentAddress;
 
+    @Column(name = "date_Of_Birth",nullable = false,length = 1000)
+    private String date_Of_Birth;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "standard_Id")

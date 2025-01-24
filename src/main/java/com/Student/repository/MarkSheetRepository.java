@@ -16,4 +16,7 @@ public interface MarkSheetRepository extends JpaRepository<MarkSheet, String> {
 
     @Query("select m from MarkSheet m JOIN m.classStandard c WHERE c.className=:className")
     List<MarkSheet>findAllClassMarkSheets(@Param("class")String className);
+
+    @Query("select m from MarkSheet m JOIN m.student s JOIN m.classStandard c where s.studentId=:studentId AND c.classId=:classId")
+    List<MarkSheet>findAllMarkSheet(@Param("studentId")String studentId,@Param("classId")String classId);
 }
